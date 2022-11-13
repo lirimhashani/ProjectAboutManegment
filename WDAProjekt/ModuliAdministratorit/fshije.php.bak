@@ -1,0 +1,14 @@
+<?php
+
+include("konfigurimi.php");
+
+
+$p_pid = $_GET['p_pid'];
+
+
+$result = mysqli_query($conn,"CALL fshi_perdorues p_pid=$p_pid");
+
+
+header("Location:perdoruesit.php");
+?>
+

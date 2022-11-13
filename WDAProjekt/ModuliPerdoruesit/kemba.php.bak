@@ -1,0 +1,55 @@
+<footer id="footer">
+					<?php
+            $result = mysqli_query($conn, "SELECT * FROM umvlo_tedhenat WHERE PamjaFaqes='Kemba_Pyt'");
+            while ($row = mysqli_fetch_assoc($result)) {
+
+              extract($row);
+			  
+			  
+if($result==null)
+  mysqli_free_result($result);
+
+            ?>
+						<section>
+							<h2><?php echo $Titulli ?></h2>
+							<p><?php echo $Pershkrimi; ?></p>
+						</section>
+			<?php } ?>
+									<?php
+            $result = mysqli_query($conn, "SELECT * FROM umvlotedhenat WHERE PamjaFaqes='Kemba_Linqe'");
+            while ($row = mysqli_fetch_assoc($result)) {
+
+              extract($row);
+			  
+			  
+if($result==null)
+  mysqli_free_result($result);
+
+            ?>
+						<section>
+							<h2><?php echo $Titulli ?></h2>
+							<?php echo $Pershkrimi; ?>
+						</section>
+			<?php } ?>
+						
+			
+			
+			<?php
+            $result = mysqli_query($conn, "SELECT * FROM umvlo_tedhenat WHERE PamjaFaqes='Kemba_Drejtat'");
+            while ($row = mysqli_fetch_assoc($result)) {
+
+              extract($row);
+			  
+			  
+if($result==null)
+  mysqli_free_result($result);
+
+            ?>
+					
+					
+							<?php echo $Pershkrimi; ?>
+					
+			<?php } ?>
+						
+					
+			</footer>

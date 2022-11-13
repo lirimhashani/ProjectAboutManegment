@@ -1,0 +1,152 @@
+<?php
+
+	include("kontrolla.php");	
+?>
+<?php
+
+include_once("konfigurimi.php");
+
+if(isset($_POST['perditso_dhenat']))
+{	
+	$ID_Dhenat = $_POST['ID_Dhenat'];
+	
+	$Titulli=$_POST['Titulli'];
+	$Pershkrimi=$_POST['Pershkrimi'];
+	$Dosja=$_POST['Dosja'];	
+		$PamjaFaqes=$_POST['PamjaFaqes'];	
+	
+	if(empty($Titulli) || empty($Pershkrimi) || empty($Dosja) || empty($PamjaFaqes)){	
+			
+		if(empty($Titulli)) {
+			echo "<font color='red'>Titulli hapsira eshte e zbrazet.</font><br/>";
+		}
+		
+		if(empty($Pershkrimi)) {
+			echo "<font color='red'>Pershkrimi hapsira eshte e zbrazet.</font><br/>";
+		}
+		
+		
+	if(empty($PamjaFaqes)) {
+			echo "<font color='red'>PamjaFaqes hapsira eshte e zbrazet.</font><br/>";
+		}		
+	}
+	
+	
+	else {	mysqli_query($conn,"SET @id = ${ID_Dhenat}");
+		mysqli_query($conn,"SET @tit = '${Titulli}'");
+		mysqli_query($conn,"SET @prsh = '${Pershkrimi}'");
+		mysqli_query($conn,"SET @ds = '${Dosja}'");
+		mysqli_query($conn,"SET @pm = '${PamjaFaqes}'");
+		 
+		$result = mysqli_query($conn,"CALL perditso_tdhena(@tit,@prsh,@ds,@pm,@id)");
+		mysqli_next_result($conn);
+		header("Location: ballina_admin.php");
+	}
+}
+?>
+<?php
+
+$ID_Dhenat = $_GET['ID_Dhenat'];
+echo("<script>console.log('PHP: " . $ID_Dhenat . "');</script>");
+
+$result = mysqli_query($conn,"SELECT * FROM umvlo_tedhenat where ID_Dhenat='$ID_Dhenat'");
+while($res = mysqli_fetch_array($result))
+{
+	$Titulli_p = $res['Titulli'];
+	$Pershkrimi_p = $res['Pershkrimi'];
+	$Dosja_p = $res['Dosja'];
+	$PamjaFaqes_p = $res['PamjaFaqes'];
+}
+
+?>
+
+<!DOCTYPE HTML>
+<!--
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+
+<html>
+	<head>
+		<title>UMVLO</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				<header id="header" class="alt">
+						<?php include_once("koka.php"); ?>
+                  </header>
+				<!-- Nav -->
+				 <nav id="nav">	
+					<?php include_once("meny.php"); ?>
+                  </nav>
+           <div id="main">
+		
+			
+
+		<!-- Main -->
+			<section id="intro" style="text-align:center;" class="main">
+								<div class="spotlight">
+											<p >Përshëndetje, <em><?php  echo $login_user;?>!</em></p>
+                                         </div>
+
+						
+
+					<div class="col-6 col-12-xsmall">
+                      <div class="table-wrapper">
+					  
+	                    <form  method="post" action="">
+	
+	
+	                        <h3>Modifiko të dhënat</h3>
+
+			
+				Titulli
+				<input type="text" name="Titulli" value='<?php echo $Titulli_p;?>'   required />
+				<br>
+				Pershkrimi
+				<textarea name="Pershkrimi"  rows="20" cols="30"><?php echo $Pershkrimi_p;?></textarea>
+				<br>
+				Emri i Dosjes
+				<input type="text" name="Dosja" value='<?php echo $Dosja_p;?>'   required />
+				<br >
+				Pamja e faqes
+				<input type="text" name="PamjaFaqes" value='<?php echo $PamjaFaqes_p;?>'   required />
+				<br >
+				<input type="hidden" name="ID_Dhenat" value='<?php echo $_GET['ID_Dhenat'];?>' />
+				<input type="submit" name="perditso_dhenat" value="Modifiko">
+		
+		
+	</form>
+
+						</div>
+						</div>
+				
+			</section>
+
+		<!-- Footer -->
+						<?php include_once("kemba.php"); ?>
+			</div>
+			</div>
+			
+       
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+
+	</body>
+</html>

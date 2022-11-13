@@ -1,0 +1,18 @@
+
+				<?php
+            $result = mysqli_query($conn, "SELECT * FROM umvlo_tedhenat WHERE PamjaFaqes='KokaAdm'");
+            while ($row = mysqli_fetch_assoc($result)) {
+
+              extract($row);
+			  
+			  
+if($result==null)
+  mysqli_free_result($result);
+
+           
+			<?php echo $Titulli ?>
+			
+			<?php echo $Pershkrimi ?>
+
+			
+		<?php } ?>

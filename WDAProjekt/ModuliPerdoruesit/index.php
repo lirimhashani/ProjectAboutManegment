@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<!--
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<?php 
+include_once("konfigurimi.php")
+?>
+<html>
+	<head>
+		<title>UMVLO</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+				  <header id="header" class="alt">
+						<?php include_once("koka.php"); ?>
+                     </header>
+				<!-- Nav -->
+				 <nav id="nav">	
+					<?php include_once("meny.php"); ?>
+                  </nav>
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Introduction -->
+						<?php
+						$visits = 1;
+
+						if (isset($_COOKIE["visits"])) {
+							$visits = (int)$_COOKIE["visits"];
+						}
+						$Month = 2592000 + time();
+						//this adds 30 days to the current time
+						setcookie("visits", date("F jS - g:i a"), $Month);
+						if (isset($_COOKIE['visits'])) {
+							$last = $_COOKIE['visits'];
+							echo "<p style='text-align:right;'>Vizita juaj e fundit ishte me: " . $last . "</p>";
+						} else {
+							echo "<p style='text-align:right;'>Vizita juaj e pare ne webaplikacion tone! Ju deshirojme mireseardhje!</p>";
+						}
+					?>
+
+						
+						
+															
+				<?php
+				$result = mysqli_query($conn, " CALL zgjedh_videolojrat()");
+				while ($row = mysqli_fetch_assoc($result)) {
+
+				  extract($row);
+				  
+				  
+				if($result==null)
+				  mysqli_free_result($result);
+							
+							?>
+						
+							<section id="intro" class="main">
+								<div class="spotlight">
+									<div class="content">
+
+										<header class="major">
+											<h2><?php echo $Emri; ?></h2>
+										</header>
+										<p> <?php echo $Pershkrimi; ?> </p>
+										<b>Platforma: <?php echo $emriPlatformes; ?> </b>
+										<br>
+										<br>
+										<ul class="actions">
+									        <b>Lloji: <?php echo $Lloji; ?></b>
+										<li> <b><a class="radio">Cmimi: <?php echo $Cmimi_Plat; ?> $</a></b></li>
+											<li><a href="kontakti.php" class="button">Bleje</a></li>
+										
+										</ul>
+									</div>
+									<span class="image"> <?php echo '<img src="data:image/jpeg;base64,'.base64_encode( $row['image'] ).'" >'; ?> </span>
+								</div>
+							</section>
+							
+				<?php } 
+					mysqli_next_result($conn); 
+?>
+                          
+						
+						
+
+				
+			
+			<!-- Footer -->
+			<?php include_once("kemba.php")?>
+			</div>
+          </div>
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

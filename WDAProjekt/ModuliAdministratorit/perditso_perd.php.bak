@@ -1,0 +1,123 @@
+<?php
+
+	include("kontrollo.php");	
+?>
+<?php
+
+include_once("konfigurimi.php");
+
+if(isset($_POST['ModifikoProdhues']))
+{	
+	$id_prodhuesi = $_POST['id_prodhuesi'];
+	
+	$emri_prodhuesit = $_POST['emri_prodhuesit'];
+
+	if(empty($emri_prodhuesit)) {	
+			
+		if(empty($perdoruesi)) {
+			echo "<font color='red'>Prodhuesi fusha eshte e zbrazet</font><br/>";
+		}		
+	} else {	
+		echo("<script>console.log('PHP: " . $id_prodhuesi . "');</script>");
+		mysqli_query($conn,"SET @p_id_prodhuesi = ${id_prodhuesi}");
+		mysqli_query($conn,"SET @p_emri_prodhuesit = '${emri_prodhuesit}'");
+		$result = mysqli_query($conn,"CALL modifiko_prodhues(@p_id_prodhuesi,@p_emri_prodhuesit)");
+		mysqli_next_result($conn);
+
+		
+		header("Location: menaxho_prodhues.php");
+	}
+}
+?>
+<?php
+
+$id_prodhuesi = $_GET['id_prodhuesi'];
+
+
+$result = mysqli_query($conn,"SELECT * FROM umt_prodhuesi WHERE id_prodhuesi=$id_prodhuesi");
+
+while($res = mysqli_fetch_array($result))
+{
+	$emri_prodhuesit = $res['emri_prodhuesit'];
+}
+?>
+
+
+<!DOCTYPE HTML>
+<!--
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+
+<html>
+	<head>
+		<title>UMVLO-Moduli Administratorit</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header" class="alt">
+						<?php include_once("koka.php"); ?>
+                     </header>
+
+				<!-- Nav -->
+					<nav id="nav">	
+					<?php include_once("meny.php"); ?>
+                  </nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- First Section -->
+							<section id="first" class="main special">
+							<div class="spotlight">
+				<p style="text-align:right;">Përshëndetje, <em><?php  echo $login_user;?>!</em></p>
+			</div>
+
+<div class="col-6 col-12-xsmall">
+	<form name="form" method="post" action="">
+	
+	<h3>Modifiko të dhënat e përdoruesit</h3>
+
+			
+				Përdoruesi
+				<input type="text" name="perdoruesi" value='<?php echo $perdoruesi;?>' />
+				<br>
+				Fjalëkalimi
+				<input type="text" name="password" value='<?php echo $password;?>' />
+				<br>
+				Email-i
+				<input type="text" name="email" value='<?php echo $email;?>' />
+				<br >
+				<input type="hidden" name="pid" value='<?php echo $_GET['pid'];?>' />
+				<input type="submit" name="perditso_perd" value="Modifiko">
+		
+		
+	</form>
+	</div>
+
+						
+				</section>
+		<!-- Footer -->
+			<?php include_once("kemba.php")?>
+			</div>
+          </div>
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
